@@ -1,22 +1,17 @@
 pipeline {
-    environment {
-     registry = "arkakundu1407/docker-pipeline"
-     registryCredential = 'dockerhub'
-     dockerImage = ''
-     containerId = sh(script: 'docker ps -aqf "name=node-app"',returnStdout: true)
-   }
-    agent any
-    stages {
-        stage('Build') { 
-            agent {
-                docker {
-                    image 'python:2-alpine' 
-                }
-            }
-            steps {
-                sh 'python -m py_compile app.py' 
-            }
-        }
+   agent any
+tools {
+    maven 'SampleMaven'
+    jdk 'JDK1.8'
+  }
+   stages {
+      stage('BUILD') {
+           steps {
+           
+           sh "mvn -B -DskipTests clean install"
+         }
+        }  
+       
         stage('Sonar Sacnner')
         {
             steps {  
