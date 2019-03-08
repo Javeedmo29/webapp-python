@@ -21,34 +21,12 @@ pipeline {
         {
             steps {  
            sh 'sonar-scanner \
-  -Dsonar.projectKey=python-app \
+  -Dsonar.projectKey=ddd \
   -Dsonar.sources=. \
-  -Dsonar.host.url=http://13.71.122.102:9000 \
-  -Dsonar.login=e97f8e5bbdd95ea1e82876c0ab3702536cb037f1'
+  -Dsonar.host.url=http://13.71.113.179:9000 \
+  -Dsonar.login=81866269906b1bcc1e5cda2d1437c5d2ca9439e4'
             
             }  
         }
-        stage('Building Image') {
-         steps {
-           script {
-             dockerImage = docker.build registry + ":$BUILD_NUMBER"
-             }
-          }
-       }
-     stage('Push Image') {
-       steps{
-         script{
-           docker.withRegistry('',registryCredential) {
-             dockerImage.push()
-         }
-        }
       }
-     }
-     
-     stage ('Run container') {
-       steps {
-          sh 'docker run --name=node-app -d -p 8082:80 $registry:$BUILD_NUMBER &'
-       }
-     }
-    }
 }
