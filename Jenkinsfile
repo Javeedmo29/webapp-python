@@ -1,6 +1,12 @@
 pipeline {
     agent any
     stages {
+       stage('BUILD') {
+           steps {
+
+           sh "mvn -B -DskipTests clean install"
+         }
+        }  
         stage('test') {
             steps {
                 sh 'python test.py'
