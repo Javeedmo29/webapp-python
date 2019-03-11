@@ -1,16 +1,12 @@
 pipeline {
-   agent any
-tools {
-    maven 'SampleMaven'
-    jdk 'JDK1.8'
-  }
-   stages {
-      stage('BUILD') {
-           steps {
-           
-           sh "mvn -B -DskipTests clean install"
-         }
-        }  
+    agent any
+    stages {
+        stage('test') {
+            steps {
+                sh 'python test.py'
+            }
+        }
+   
        
         stage('Sonar Sacnner')
         {
